@@ -1,0 +1,40 @@
+{
+  "name": "stblackwood-sere",
+  "version": "1.0.0",
+  "description": "A stateful, linearly scalable distributed system to stream kafka messages to clients over the internet through websockets",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StBlackwood/sere.git"
+  },
+  "keywords": [
+    "kafka",
+    "gossip protcol",
+    "websockets"
+  ],
+  "author": "Pavan Konduri",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/StBlackwood/sere/issues"
+  },
+  "homepage": "https://github.com/StBlackwood/sere#readme",
+  "dependencies": {
+    "body": "^5.0.0",
+    "bunyan": "^1.8.15",
+    "error": "^5.0.0",
+    "farmhash": "3.2.2",
+    "hammock": "^3.0.1",
+    "metrics": "^0.1.8",
+    "node-uuid": "^1.4.3",
+    "tchannel": "^4.0.1",
+    "toobusy-js": "^0.5.0",
+    "underscore": "^1.5.2"
+  },
+  "overrides": {
+    "sse4_crc32": "7.0.0",
+    "farmhash": "3.2.2"
+  }
+}
