@@ -1,9 +1,8 @@
-const config = require('./config')();
 const args = process.argv.splice(2);
 const buynan = require('bunyan');
 const logger = buynan.createLogger({name: 'test_' + args[0], src: true});
 
-const Ringpop = require('./lib/ringpop');
+const Ringpop = require('../lib/ringpop');
 const TChannel = require('tchannel');
 
 const topChannel = new TChannel();
@@ -26,8 +25,6 @@ const ring = new Ringpop({
 
   },
 });
-
-ring.lookupN()
 
 topChannel.listen(parseInt(args[0]), '127.0.0.1', () => {
   logger.info('Listening on tchannel');
@@ -64,7 +61,49 @@ function bootstrap() {
   });
 }
 
+ring.channel.register('func1', (req, res, arg1, arg2) => {
+  logger.info('Received func1 call by', args[0], arg1.toString(),
+      arg2.toString());
+  res.headers.as = 'raw';
+  res.sendOk('result', 'indeed it did');
+});
+
+ring.handleOrProxy();
 bootstrap();
 
+setInterval(printMembers, 30000);
 
-setInterval(printMembers, 3000)
+const Channel = require('./channel/channel');
+
+let ch = new Channel(ring, {
+  maxRetries: 3,
+  timeout: 3000,
+  headers: {'as': 'raw', 'cn': 'example-client'},
+});
+
+ch.register('kafka', function handler(key, arg3, cb) {
+  logger.info('received msg for ', key.toString(), arg3.toString());
+  cb(null);
+});
+
+const generateRandomString = (myLength) => {
+  const chars =
+      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  const randomArray = Array.from(
+      {length: myLength},
+      (v, k) => chars[Math.floor(Math.random() * chars.length)],
+  );
+
+  return randomArray.join('');
+};
+
+function sendMsg() {
+  let key = generateRandomString(5);
+  logger.info('Sending msg', key, 'from', parseInt(args[0]));
+  ch.send('kafka', key, Date.now().toString(), function callback(err) {
+    if (err)
+      logger.error('Error sending msg', err);
+  });
+}
+
+setInterval(sendMsg, 50);
