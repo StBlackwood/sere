@@ -24,18 +24,22 @@
   "dependencies": {
     "async": "^3.2.4",
     "body": "^5.0.0",
+    "body-parser": "^1.20.0",
     "bunyan": "^1.8.15",
     "error": "^5.0.0",
+    "eventemitter3": "^4.0.0",
     "farmhash": "3.2.2",
+    "follow-redirects": "^1.0.0",
     "hammock": "^3.0.1",
+    "json-stringify": "^1.0.0",
     "metrics": "^0.1.8",
+    "node-rdkafka": "^2.13.0",
     "node-uuid": "^1.4.3",
+    "requires-port": "^1.0.0",
     "tchannel": "^4.0.1",
     "toobusy-js": "^0.5.0",
     "underscore": "^1.5.2",
-    "eventemitter3": "^4.0.0",
-    "requires-port": "^1.0.0",
-    "follow-redirects": "^1.0.0"
+    "ws": "^8.8.1"
   },
   "overrides": {
     "sse4_crc32": "7.0.0",

@@ -79,6 +79,7 @@ let ch = new Channel(ring, {
   maxRetries: 3,
   timeout: 3000,
   headers: {'as': 'raw', 'cn': 'example-client'},
+  logger,
 });
 
 ch.register('kafka', function handler(key, arg3, cb) {

@@ -20,6 +20,7 @@ function Channel(ringpop, options = {}) {
   this._serviceName = 'ringpop';
   this._options = options;
   this._handlers = {};
+  this._logger = options.logger || ringpop.logger;
 }
 
 Channel.prototype.getHandlers = function(invokeId) {
@@ -28,7 +29,7 @@ Channel.prototype.getHandlers = function(invokeId) {
 
 Channel.prototype.send = function send(invokeId, key, arg3, callback) {
   const self = this;
-  const logger = self._ringpop.logger;
+  const logger = self._logger;
   let dest = this._ringpop.lookup(key);
   if (dest === this._ringpop.whoami()) {
     handleLocally();
