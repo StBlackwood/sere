@@ -1,6 +1,7 @@
 const args = process.argv.splice(2);
 const buynan = require('bunyan');
-const logger = buynan.createLogger({name: 'test_' + args[0], src: true});
+const logger = buynan.createLogger(
+    {name: 'test_' + args[0], src: true, level: 'trace'});
 
 const Ringpop = require('../lib/ringpop');
 const TChannel = require('tchannel');
@@ -107,4 +108,24 @@ function sendMsg() {
   });
 }
 
-setInterval(sendMsg, 50);
+let sere = {
+  logger: logger,
+  ring: ring,
+  channel: ch,
+};
+
+const kafkaMsgHandler = require('./kafka/msgHandler');
+let msgHandler = kafkaMsgHandler({invokeId: 'kafka', limit: 10}).bind(sere);
+const KConsumer = require('./kafka/consumer');
+
+let kconsumer = new KConsumer(logger, msgHandler, {
+  consumerGroupId: 'test.3r3',
+  brokerList: ['b-2.gamezy-playship.y7j0ae.c2.kafka.ap-south-1.amazonaws.com:9092'],
+  topicList: ['contest-lobbyWsV2'],
+  batchSize: 2,
+  batchPeriod: 3000,
+});
+
+logger.trace('Checking trace');
+
+kconsumer.start();

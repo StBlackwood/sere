@@ -25,11 +25,11 @@ function KConsumer(logger, msgHandler, options) {
     self.consumer.consume();
   });
 
-  this.__msgs = [];
+  this.__msgQueue = [];
 
   this.consumer.on('data', function(data) {
-    self.__msgs.push(data);
-    if (self.__msgs.length > self.options.batchSize) {
+    self.__msgQueue.push(data);
+    if (self.__msgQueue.length > self.options.batchSize) {
       self.consumer.pause(self.consumer.assignments());
       self.paused = true;
 
@@ -48,7 +48,7 @@ KConsumer.prototype.start = function() {
   const self = this;
   // schedule a periodic processor also
   setInterval(() => {
-    if (self.__msgs.length > 0)
+    if (self.__msgQueue.length > 0)
       self.__handleMsgs();
   }, this.options.batchPeriod);
 };
@@ -64,7 +64,7 @@ KConsumer.prototype.__handleMsgs = function() {
         'Already processing of msgs is running, cant trigger again');
 
   self.isProcessing = true;
-  self.msgHandler(self.__msgs, (err) => {
+  self.msgHandler(self.__msgQueue, (err) => {
     if (err) {
       self.logger.error('Error consuming events, resuming the consumption',
           err);
@@ -77,10 +77,10 @@ KConsumer.prototype.__handleMsgs = function() {
 
     if (self.isProcessing) {
       // commit all processed messages
-      commitProcessedMessages.call(self, self.__msgs);
+      commitProcessedMessages.call(self, self.__msgQueue);
 
       // commit msgs
-      self.__msgs = [];
+      self.__msgQueue = [];
       self.isProcessing = false;
     }
   });
