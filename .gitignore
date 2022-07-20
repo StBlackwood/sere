@@ -105,3 +105,9 @@ dist
 
 # NPM token
 .npmrc
+
+# IDE files
+.idea/
+
+# Avoiding locking of versions
+package-lock.json
