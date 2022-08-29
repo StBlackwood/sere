@@ -38,7 +38,7 @@ Channel.prototype.send = function send(invokeId, key, arg3, callback) {
 
   function handleLocally() {
     // handling locally
-    logger.info('Handling locally', key);
+    logger.debug('Handling locally', key);
     let handlers = self.getHandlers(invokeId);
     let aWaitbacks = [];
     for (let h of handlers) {

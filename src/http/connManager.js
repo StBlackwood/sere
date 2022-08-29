@@ -14,17 +14,18 @@ const onWSClose = function(res, sock) {
 const createHttpProxy = function(host, port) {
   let proxyTarget = {host: host, port: port};
 
+  const self = this;
   let proxyRoute = httpProxy.createProxyServer({
     target: proxyTarget,
     ws: true,
   });
-  this.logger.info('Created http proxy server on host %s, port %s', host, port);
-  proxyRoute.on('close', (...args) => onWSClose.call(this, ...args));
+  self.logger.info('Created http proxy server on host %s, port %s', host, port);
+  proxyRoute.on('close', (...args) => onWSClose.call(self, ...args));
   proxyRoute.on('error', function(err, req, res) {
     res.statusCode = 500;
     res.write('Error on proxying the request');
     res.end();
-    this._logger.error({err: err});
+    self.logger.error({err: err});
   });
   return proxyRoute;
 };

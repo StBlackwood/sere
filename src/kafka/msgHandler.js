@@ -8,6 +8,10 @@ function getMsgHandler(options) {
         options.invokeId, 'messages length', messages.length);
     let waitBacks = [];
     for (let msg of messages) {
+      if (msg.key == null) {
+        self.logger.warn("Found no key in the message, dropping the message");
+        continue;
+      }
       let key = msg.key.toString();
       waitBacks.push(function(cb) {
         self.channel.send(options.invokeId, key, msg.value, cb);

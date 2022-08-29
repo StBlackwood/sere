@@ -119,7 +119,7 @@ let msgHandler = kafkaMsgHandler({invokeId: 'kafka', limit: 10}).bind(sere);
 const KConsumer = require('./kafka/consumer');
 
 let kconsumer = new KConsumer(logger, msgHandler, {
-  consumerGroupId: 'test.3r3',
+  consumerGroupId: 'teseret.3r3',
   brokerList: ['b-2.gamezy-playship.y7j0ae.c2.kafka.ap-south-1.amazonaws.com:9092'],
   topicList: ['contest-lobbyWsV2'],
   batchSize: 2,
