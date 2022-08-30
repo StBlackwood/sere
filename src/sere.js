@@ -69,7 +69,6 @@ ring.channel.register('func1', (req, res, arg1, arg2) => {
   res.sendOk('result', 'indeed it did');
 });
 
-ring.handleOrProxy();
 bootstrap();
 
 setInterval(printMembers, 30000);

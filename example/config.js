@@ -5,9 +5,8 @@ let options = {
   wsPath: '',
   handleWSMessage: () => {},
   initialConnHandler: () => {},
-  clientDetailsResolver: () => {
-
-  }
+  clientDetailsResolver: () => {},
+  onKeysRemoved: () => {}
 }
 
 module.exports = () => {
