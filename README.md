@@ -2,6 +2,12 @@
 
 SERE is a collection of solutions and write-ups for security-related challenges, covering various cybersecurity concepts such as reverse engineering, cryptography, binary exploitation, and web security.
 
+
+# **⚠️ This project is discontinued publicly. It is further developed privately by an organization.**
+
+
+
+
 ## Table of Contents
 - [About](#about)
 - [Challenges](#challenges)
